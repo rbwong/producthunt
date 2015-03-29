@@ -1,8 +1,42 @@
+import json
+
 from rest_framework import permissions, viewsets
+from rest_framework import status, views
+from rest_framework.response import Response
 
 from authentication.models import Account
 from authentication.permissions import IsAccountOwner
 from authentication.serializers import AccountSerializer
+
+from django.contrib.auth import authenticate, login
+
+
+class LoginView(views.APIView):
+    def post(self, request, format=None):
+        data = json.loads(request.body)
+
+        email = data.get('email', None)
+        password = data.get('password', None)
+
+        account = authenticate(email=email, password=password)
+
+        if account is not None:
+            if account.is_active:
+                login(request, account)
+
+                serialized = AccountSerializer(account)
+
+                return Response(serialized.data)
+            else:
+                return Response({
+                    'status': 'Unauthorized',
+                    'message': 'This account has been disabled.'
+                }, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response({
+                'status': 'Unauthorized',
+                'message': 'Username/password combination invalid.'
+            }, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class AccountViewSet(viewsets.ModelViewSet):
