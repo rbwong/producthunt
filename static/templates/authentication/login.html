@@ -1,25 +1,18 @@
 <div class="row">
-  <div class="col-md-4 col-md-offset-4">
-    <h1>Login</h1>
-
-    <div class="well">
-      <form role="form" ng-submit="vm.login()">
-        <div class="alert alert-danger" ng-show="error" ng-bind="error"></div>
-
-        <div class="form-group">
-          <label for="login__email">Email</label>
-          <input type="text" class="form-control" id="login__email" ng-model="vm.email" placeholder="ex. john@example.com" />
-        </div>
-
-        <div class="form-group">
-          <label for="login__password">Password</label>
-          <input type="password" class="form-control" id="login__password" ng-model="vm.password" placeholder="ex. thisisnotgoogleplus" />
-        </div>
-
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-      </form>
+  <form class="col s12" ng-submit="vm.login()">
+    <h5>Login</h5>
+    <div class="row">
+      <div class="input-field col s12">
+        <i class="mdi-content-mail prefix"></i>
+        <input type="text" class="validate" id="login__email" ng-model="vm.email" />
+        <label for="login__email">Email</label>
+      </div>
+      <div class="input-field col s12">
+        <i class="mdi-action-lock prefix"></i>
+        <input type="password" class="validate" id="login__password" ng-model="vm.password" />
+        <label for="login__password">Password</label>
+      </div>
     </div>
-  </div>
+    <button type="submit"  class="waves-effect waves-green btn-flat modal-action modal-close">Login</button>
+  </form>
 </div>

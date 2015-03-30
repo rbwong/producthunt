@@ -1,5 +1,8 @@
+from datetime import datetime, timedelta, time
+
 from rest_framework import permissions, viewsets
 from rest_framework.response import Response
+from rest_framework import generics, mixins
 
 from posts.models import Post
 from posts.permissions import IsAuthorOfPost
@@ -7,7 +10,6 @@ from posts.serializers import PostSerializer
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.order_by('-created_at')
     serializer_class = PostSerializer
 
     def get_permissions(self):
@@ -20,6 +22,32 @@ class PostViewSet(viewsets.ModelViewSet):
 
         return super(PostViewSet, self).perform_create(serializer)
 
+    def get_queryset(self):
+        today = datetime.now().date()
+
+        queryset = Post.today_objects.order_by('-created_at')
+        days_ago = self.request.QUERY_PARAMS.get('days_ago', None)
+        day = self.request.QUERY_PARAMS.get('day', None)
+        if days_ago is not None:
+            days_ago = int(days_ago)
+            that_day = today - timedelta(days_ago)
+            that_day_plus_one = that_day + timedelta(1)
+            queryset = Post.objects.filter(
+                created_at__range=[that_day, that_day_plus_one]).order_by('-created_at')
+        elif day is not None:
+            that_day = datetime.strptime(day, '%m-%d-%Y')
+            that_day_plus_one = that_day + timedelta(1)
+            queryset = Post.objects.filter(
+                created_at__range=[that_day, that_day_plus_one]).order_by('-created_at')
+        return queryset
+
+
+class PostListAll(generics.ListAPIView):
+    queryset = Post.objects.order_by('-created_at')
+    paginate_by = 30
+    paginate_by_param = 'page_size'
+    max_paginate_by = 50
+    serializer_class = PostSerializer
 
 
 class AccountPostsViewSet(viewsets.ViewSet):

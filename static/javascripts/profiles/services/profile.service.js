@@ -38,7 +38,7 @@
     * @memberOf thinkster.profiles.services.Profile
     */
     function destroy(profile) {
-      return $http.delete('/api/v1/accounts/' + profile.id + '/');
+      return $http.delete('/api/v1/accounts/' + profile.id);
     }
 
 
@@ -50,7 +50,7 @@
     * @memberOf thinkster.profiles.services.Profile
     */
     function get(username) {
-      return $http.get('/api/v1/accounts/' + username + '/');
+      return $http.get('/api/v1/accounts/' + username);
     }
 
 
@@ -62,7 +62,7 @@
     * @memberOf thinkster.profiles.services.Profile
     */
     function update(profile) {
-      return $http.put('/api/v1/accounts/' + profile.username + '/', profile);
+      return $http.put('/api/v1/accounts/' + profile.username, profile);
     }
   }
 })();

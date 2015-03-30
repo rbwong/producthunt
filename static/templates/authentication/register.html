@@ -1,28 +1,23 @@
 <div class="row">
-  <div class="col-md-4 col-md-offset-4">
-    <h1>Register</h1>
-
-    <div class="well">
-      <form role="form" ng-submit="vm.register()">
-        <div class="form-group">
-          <label for="register__email">Email</label>
-          <input type="email" class="form-control" id="register__email" ng-model="vm.email" placeholder="ex. john@notgoogle.com" />
-        </div>
-
-        <div class="form-group">
-          <label for="register__username">Username</label>
-          <input type="text" class="form-control" id="register__username" ng-model="vm.username" placeholder="ex. john" />
-        </div>
-
-        <div class="form-group">
-          <label for="register__password">Password</label>
-          <input type="password" class="form-control" id="register__password" ng-model="vm.password" placeholder="ex. thisisnotgoogleplus" />
-        </div>
-
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-      </form>
+  <form class="col s12" ng-submit="vm.register()">
+    <h5>Register</h5>
+    <div class="row">
+      <div class="input-field col s12">
+        <i class="mdi-content-mail prefix"></i>
+        <input type="text" class="validate" id="register__email" ng-model="vm.email" />
+        <label for="register__email">Email</label>
+      </div>
+      <div class="input-field col s12">
+        <i class="mdi-action-account-box prefix"></i>
+        <input type="text" class="validate" id="register__username" ng-model="vm.username" />
+        <label for="register__username">Username</label>
+      </div>
+      <div class="input-field col s12">
+        <i class="mdi-action-lock prefix"></i>
+        <input type="password" class="validate" id="register__password" ng-model="vm.password" />
+        <label for="register__password">Password</label>
+      </div>
     </div>
-  </div>
+    <button type="submit"  class="waves-effect waves-green btn-flat modal-action modal-close">Register</button>
+  </form>
 </div>
