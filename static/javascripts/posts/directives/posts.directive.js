@@ -19,8 +19,6 @@
     * @memberOf thinkster.posts.directives.Posts
     */
     var directive = {
-      controller: 'PostsController',
-      controllerAs: 'vm',
       restrict: 'E',
       scope: {
         posts: '='

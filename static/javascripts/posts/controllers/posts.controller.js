@@ -104,14 +104,12 @@
       if (current !== original) {
         vm.columns = [];
 
-        for (var i = 0; i < calculateNumberOfColumns(); ++i) {
+        for (var i = 0; i < 1; ++i) {
           vm.columns.push([]);
         }
 
         for (var i = 0; i < current.length; ++i) {
-          var column = approximateShortestColumn();
-
-          vm.columns[column].push(current[i]);
+          vm.columns[0].push(current[i]);
         }
       }
     }

@@ -1,4 +1,6 @@
 from django.conf.urls import patterns, url, include
+from django.contrib import admin
+admin.autodiscover()
 
 from thinkster_django_angular_boilerplate.views import IndexView
 
@@ -24,5 +26,6 @@ urlpatterns = patterns(
     url(r'^api/v1/', include(router.urls)),
     url(r'^api/v1/', include(accounts_router.urls)),
 
+    url(r'^admin/', include(admin.site.urls)),
     url('^.*$', IndexView.as_view(), name='index'),
 )

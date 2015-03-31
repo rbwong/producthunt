@@ -108,7 +108,6 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
     ),
-    'PAGE_SIZE': 1
 }
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()

@@ -31,20 +31,16 @@ class PostViewSet(viewsets.ModelViewSet):
         if days_ago is not None:
             days_ago = int(days_ago)
             that_day = today - timedelta(days_ago)
-            that_day_plus_one = that_day + timedelta(1)
-            queryset = Post.objects.filter(
-                created_at__range=[that_day, that_day_plus_one]).order_by('-created_at')
+            that_day = datetime.strftime(that_day, '%m-%d-%Y')
+            queryset = Post.objects.filter(day=that_day).order_by('-created_at')
         elif day is not None:
-            that_day = datetime.strptime(day, '%m-%d-%Y')
-            that_day_plus_one = that_day + timedelta(1)
-            queryset = Post.objects.filter(
-                created_at__range=[that_day, that_day_plus_one]).order_by('-created_at')
+            queryset = Post.objects.filter(day=day).order_by('-created_at')
         return queryset
 
 
 class PostListAll(generics.ListAPIView):
     queryset = Post.objects.order_by('-created_at')
-    paginate_by = 30
+    paginate_by = 10
     paginate_by_param = 'page_size'
     max_paginate_by = 50
     serializer_class = PostSerializer

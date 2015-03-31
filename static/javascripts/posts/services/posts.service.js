@@ -16,13 +16,35 @@
   * @returns {Factory}
   */
   function Posts($http) {
-    var Posts = {
-      all: all,
-      create: create,
-      get: get
-    };
 
-    return Posts;
+    var Posts = function() {
+        this.items = [];
+        this.busy = false;
+        this.after = 0;
+      };
+
+    Posts.prototype.nextPage = function() {
+      if (this.busy) return;
+      this.busy = true;
+
+      var url = "/api/v1/posts?days_ago=" + this.after;
+      $http.get(url).success(function(data) {
+        var items = data;
+
+        for (var i = 0; i < items.length; i++) {
+          //add header
+          if (i == 0) {
+            items[i].header = true;
+          }
+          else {
+            items[i].header = false;
+          }
+          this.items.push(items[i]);
+        }
+        this.after++;
+        this.busy = false;
+      }.bind(this));
+    };
 
     ////////////////////
 
@@ -32,8 +54,8 @@
     * @returns {Promise}
     * @memberOf thinkster.posts.services.Posts
     */
-    function all() {
-      return $http.get('/api/v1/posts');
+    Posts.all = function() {
+      return $http.get('/api/v1/posts/all');
     }
 
 
@@ -44,11 +66,11 @@
     * @returns {Promise}
     * @memberOf thinkster.posts.services.Posts
     */
-    function create(content) {
+     Posts.create = function(name) {
       return $http.post('/api/v1/posts', {
-        content: content
+        name: name
       });
-    }
+    };
 
     /**
      * @name get
@@ -57,8 +79,10 @@
      * @returns {Promise}
      * @memberOf thinkster.posts.services.Posts
      */
-    function get(username) {
+    Posts.get = function (username) {
       return $http.get('/api/v1/accounts/' + username + '/posts');
     }
+
+    return Posts;
   }
 })();
