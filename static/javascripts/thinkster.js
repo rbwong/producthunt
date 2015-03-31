@@ -9,11 +9,11 @@
       'thinkster.authentication',
        'thinkster.layout',
        'thinkster.posts',
-       'thinkster.profiles'
+       'thinkster.profiles',
     ]);
 
   angular
-    .module('thinkster.config', []);
+    .module('thinkster.config', ['pascalprecht.translate']);
 
   angular
     .module('thinkster.routes', ['ngRoute']);

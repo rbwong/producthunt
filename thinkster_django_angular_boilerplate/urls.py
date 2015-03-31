@@ -7,10 +7,11 @@ from thinkster_django_angular_boilerplate.views import IndexView
 from rest_framework_nested import routers
 
 from authentication.views import AccountViewSet, LoginView, LogoutView
-from posts.views import AccountPostsViewSet, PostViewSet, PostListAll
+from posts.views import AccountPostsViewSet, PostViewSet, PostListAll, CountryViewSet
 
 router = routers.SimpleRouter(trailing_slash=False)
 router.register(r'accounts', AccountViewSet)
+router.register(r'countries', CountryViewSet)
 router.register(r'posts', PostViewSet, 'Post')
 
 accounts_router = routers.NestedSimpleRouter(

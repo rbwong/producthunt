@@ -1,9 +1,12 @@
 <div infinite-scroll='vm.reddit.nextPage()' infinite-scroll-disabled='vm.reddit.busy' infinite-scroll-distance='1'>
     <ul class="collection">
         <div ng-repeat="item in vm.reddit.items">
-            <div ng-show="item.header">
-                {{ item.day | relativeDate }}
-            </div>
+            <li class="collection-item">
+            <time ng-show="item.header" class="posts--date" datetime="{{ item.day }}">
+                <h4 class="posts--date--name">{{ item.day | relativeDate }}</h4>
+                {{ item.day | date: 'M dd yyyy' }}
+            </time>
+            </li>
             <post post="item"></post>
         </div>
     </ul>

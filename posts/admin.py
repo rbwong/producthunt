@@ -1,6 +1,12 @@
 from django.contrib import admin
-from .models import Post
+from .models import Country, Post
+
+
+class CountryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'short', 'logo_url')
+admin.site.register(Country, CountryAdmin)
+
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('name',  'tagline', 'day', 'discussion_url', 'redirect_url', 'created_at')
+    list_display = ('name', 'country', 'tagline', 'day', 'discussion_url', 'redirect_url', 'created_at')
 admin.site.register(Post, PostAdmin)
