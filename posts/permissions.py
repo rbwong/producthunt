@@ -13,3 +13,10 @@ class IsAdmin(permissions.BasePermission):
         if request.user:
             return request.user.is_admin
         return False
+
+
+class IsMod(permissions.BasePermission):
+    def has_object_permission(self, request, view, post):
+        if request.user:
+            return request.user.is_mod
+        return False

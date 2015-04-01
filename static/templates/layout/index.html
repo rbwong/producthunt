@@ -1,6 +1,11 @@
-<div infinite-scroll='vm.reddit.nextPage()' infinite-scroll-disabled='vm.reddit.busy' infinite-scroll-distance='1'>
+
+
+<!--<button ng-click="vm.login_fb()">Login with Facebook</button>-->
+
+
+<div infinite-scroll='vm.posts.nextPage()' infinite-scroll-disabled='vm.posts.busy' infinite-scroll-distance='1'>
     <ul class="collection">
-        <div ng-repeat="item in vm.reddit.items">
+        <div ng-repeat="item in vm.posts.items">
             <li class="collection-item">
             <time ng-show="item.header" class="posts--date" datetime="{{ item.day }}">
                 <h4 class="posts--date--name">{{ item.day | relativeDate }}</h4>
@@ -10,7 +15,7 @@
             <post post="item"></post>
         </div>
     </ul>
-    <div ng-show='reddit.busy'>Loading data...</div>
+    <div ng-show='posts.busy'>Loading data...</div>
 </div>
 
 <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">

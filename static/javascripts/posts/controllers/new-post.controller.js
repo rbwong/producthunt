@@ -18,6 +18,36 @@
     var vm = this;
 
     vm.submit = submit;
+    vm.countries = [];
+
+    activate();
+
+    /**
+    * @name activate
+    * @desc Actions to be performed when this controller is instantiated
+    * @memberOf thinkster.profiles.controllers.ProfileController
+    */
+    function activate() {
+      Posts.countries().then(postsSuccessFn, postsErrorFn);
+
+
+      /**
+        * @name postsSucessFn
+        * @desc Update `posts` on viewmodel
+        */
+      function postsSuccessFn(data, status, headers, config) {
+        vm.countries = data.data;
+      }
+
+
+      /**
+        * @name postsErrorFn
+        * @desc Show error snackbar
+        */
+      function postsErrorFn(data, status, headers, config) {
+        Snackbar.error(data.data.error);
+      }
+    }
 
     /**
     * @name submit
@@ -29,13 +59,13 @@
         name: vm.name,
         author: {
           username: Authentication.getAuthenticatedAccount().username
-        }
+        },
+        country: vm.country
       });
 
       $scope.closeThisDialog();
 
-      Posts.create(vm.name).then(createPostSuccessFn, createPostErrorFn);
-
+      Posts.create(vm.name, vm.country).then(createPostSuccessFn, createPostErrorFn);
 
       /**
       * @name createPostSuccessFn

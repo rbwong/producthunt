@@ -8,5 +8,5 @@ admin.site.register(Country, CountryAdmin)
 
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('name', 'country', 'tagline', 'day', 'discussion_url', 'redirect_url', 'created_at')
+    list_display = ('name', 'country', 'tagline', 'day', 'discussion_url', 'redirect_url', 'created_at', 'is_approved')
 admin.site.register(Post, PostAdmin)

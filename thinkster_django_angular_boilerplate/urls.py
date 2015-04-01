@@ -8,6 +8,7 @@ from rest_framework_nested import routers
 
 from authentication.views import AccountViewSet, LoginView, LogoutView
 from posts.views import AccountPostsViewSet, PostViewSet, PostListAll, CountryViewSet
+from authentication.views import social_register
 
 router = routers.SimpleRouter(trailing_slash=False)
 router.register(r'accounts', AccountViewSet)
@@ -27,6 +28,8 @@ urlpatterns = patterns(
     url(r'^api/v1/', include(router.urls)),
     url(r'^api/v1/', include(accounts_router.urls)),
 
+    url(r'^sociallogin/', social_register),
+    (r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url('^.*$', IndexView.as_view(), name='index'),
 )

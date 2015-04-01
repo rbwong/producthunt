@@ -3,9 +3,9 @@
 
   angular
     .module('thinkster.layout', [
-      'thinkster.layout.controllers'
+      'thinkster.layout.controllers',
     ]);
 
   angular
-    .module('thinkster.layout.controllers', []);
+    .module('thinkster.layout.controllers', ['restangular']);
 })();

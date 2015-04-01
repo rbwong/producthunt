@@ -27,4 +27,4 @@ class PostSerializer(serializers.ModelSerializer):
     def get_validation_exclusions(self, *args, **kwargs):
         exclusions = super(PostSerializer, self).get_validation_exclusions()
 
-        return exclusions + ['author', 'country']
+        return exclusions + ['author']

@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, time
 
-from rest_framework import permissions, viewsets
+from rest_framework import permissions, viewsets, status
 from rest_framework.response import Response
 from rest_framework import generics, mixins
 
@@ -28,7 +28,8 @@ class PostViewSet(viewsets.ModelViewSet):
         return (permissions.IsAuthenticated(), IsAuthorOfPost(),)
 
     def perform_create(self, serializer):
-        instance = serializer.save(author=self.request.user)
+        country = Country.objects.get(pk=int(self.request.data['country']))
+        instance = serializer.save(author=self.request.user, country=country)
 
         return super(PostViewSet, self).perform_create(serializer)
 
@@ -39,6 +40,7 @@ class PostViewSet(viewsets.ModelViewSet):
             is_approved=True).order_by('-created_at')
         days_ago = self.request.QUERY_PARAMS.get('days_ago', None)
         day = self.request.QUERY_PARAMS.get('day', None)
+
         if days_ago is not None:
             days_ago = int(days_ago)
             that_day = today - timedelta(days_ago)

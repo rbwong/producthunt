@@ -29,6 +29,7 @@
 
       var url = "/api/v1/posts?days_ago=" + this.after;
       $http.get(url).success(function(data) {
+        if (!data.length && this.after != 0) return;
         var items = data;
 
         for (var i = 0; i < items.length; i++) {
@@ -66,9 +67,10 @@
     * @returns {Promise}
     * @memberOf thinkster.posts.services.Posts
     */
-     Posts.create = function(name) {
+     Posts.create = function(name, country) {
       return $http.post('/api/v1/posts', {
-        name: name
+        name: name,
+        country: country,
       });
     };
 
@@ -81,6 +83,10 @@
      */
     Posts.get = function (username) {
       return $http.get('/api/v1/accounts/' + username + '/posts');
+    }
+
+    Posts.countries = function () {
+      return $http.get('/api/v1/countries');
     }
 
     return Posts;

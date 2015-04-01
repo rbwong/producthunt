@@ -1,6 +1,6 @@
 {% load staticfiles %}
 
-<nav role="navigation" ng-controller="NavbarController as vm">
+<nav {% if request.path == '/' %}class="transparent"{% endif %} role="navigation" ng-controller="NavbarController as vm">
   <div class="nav-wrapper container">
     <a id="logo-container" href="/" class="brand-logo"><img src="{% static 'images/logo-40.png' %}" /></a>
   <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>

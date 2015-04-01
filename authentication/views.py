@@ -2,13 +2,17 @@ import json
 
 from rest_framework import permissions, viewsets
 from rest_framework import status, views
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+
+from social.apps.django_app.utils import strategy
 
 from authentication.models import Account
 from authentication.permissions import IsAccountOwner
 from authentication.serializers import AccountSerializer
 
 from django.contrib.auth import authenticate, login, logout
+from django.views.decorators.csrf import csrf_exempt
 
 
 class AccountViewSet(viewsets.ModelViewSet):
@@ -40,6 +44,7 @@ class AccountViewSet(viewsets.ModelViewSet):
 
 
 class LoginView(views.APIView):
+
     def post(self, request, format=None):
         data = json.loads(request.body)
 
@@ -74,4 +79,38 @@ class LogoutView(views.APIView):
         logout(request)
 
         return Response({}, status=status.HTTP_204_NO_CONTENT)
-        
+
+
+@strategy()
+def auth_by_token(request, backend):
+    backend = request.strategy.backend
+    user = request.user
+    user = backend.do_auth(
+        access_token=request.DATA.get('access_token'),
+        user=user.is_authenticated() and user or None
+    )
+    if user and user.is_active:
+        return user  # Return anything that makes sense here
+    else:
+        return None
+
+
+@csrf_exempt
+@api_view(['POST'])
+@permission_classes((permissions.AllowAny,))
+def social_register(request):
+    auth_token = request.DATA.get('access_token', None)
+    backend = request.DATA.get('backend', None)
+    if auth_token and backend:
+        try:
+            user = auth_by_token(request, backend)
+        except Exception, err:
+            return Response(str(err), status=400)
+        if user:
+            strategy = load_strategy(request=request, backend=backend)
+            _do_login(strategy, user)
+            return Response("User logged in", status=status.HTTP_200_OK)
+        else:
+            return Response("Bad Credentials", status=403)
+    else:
+        return Response("Bad request", status=400)
